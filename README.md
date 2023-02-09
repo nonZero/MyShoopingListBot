@@ -2,4 +2,4 @@
 
 To run:
 
-    poetry run bot.py`
+    poetry run python bot.py
