@@ -11,6 +11,7 @@ from telegram.ext import (
 
 import bot_settings
 from dict_storage import DictStorage
+from mongo_storage import MongoStorage
 
 WELCOME_TEXT = "Enter your shopping items and I will save them for you. "
 
@@ -21,7 +22,7 @@ logging.basicConfig(
 
 logger = logging.getLogger(__name__)
 
-storage = DictStorage()
+storage = MongoStorage()
 
 
 def start(update: Update, context: CallbackContext):
