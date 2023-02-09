@@ -1,11 +1,11 @@
-DB = {}
+class DictStorage:
+    def __init__(self):
+        self.db = {}
 
+    def add_item_for_chat(self, chat_id: str, item: str):
+        if chat_id not in self.db:
+            self.db[chat_id] = []
+        self.db[chat_id].append(item)
 
-def add_item_for_chat(chat_id: str, item: str):
-    if chat_id not in DB:
-        DB[chat_id] = []
-    DB[chat_id].append(item)
-
-
-def list_items_for_chat(chat_id: str):
-    return DB.get(chat_id, [])
+    def list_items_for_chat(self, chat_id: str):
+        return self.db.get(chat_id, [])
