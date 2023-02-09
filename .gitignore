@@ -1,0 +1,3 @@
+*.pyc
+.idea
+/bot_settings.py
