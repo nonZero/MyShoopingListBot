@@ -10,6 +10,7 @@ from telegram.ext import (
 )
 
 import bot_settings
+from dict_storage import add_item_for_chat
 
 WELCOME_TEXT = "Enter your shopping items and I will save them for you. "
 
@@ -31,7 +32,8 @@ def respond(update: Update, context: CallbackContext):
     chat_id = update.effective_chat.id
     text = update.message.text
     logger.info(f"= Got on chat #{chat_id}: {text!r}")
-    response = text.replace("7", "💣")
+    add_item_for_chat(chat_id, text)
+    response = f"Added item: {text}."
     context.bot.send_message(chat_id=update.message.chat_id, text=response)
 
 
