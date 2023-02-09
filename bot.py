@@ -10,7 +10,7 @@ from telegram.ext import (
 )
 
 import bot_settings
-from dict_storage import add_item_for_chat
+from dict_storage import add_item_for_chat, list_items_for_chat
 
 WELCOME_TEXT = "Enter your shopping items and I will save them for you. "
 
@@ -27,6 +27,17 @@ def start(update: Update, context: CallbackContext):
     logger.info(f"> Start chat #{chat_id}")
     context.bot.send_message(chat_id=chat_id, text=WELCOME_TEXT)
 
+def list_items(update: Update, context: CallbackContext):
+    chat_id = update.effective_chat.id
+    logger.info(f"> Getting list for chat #{chat_id}")
+    items = list_items_for_chat(chat_id)
+    if not items:
+        msg = "No items."
+    else:
+        msg = ''.join(f"* {x}\n" for x in items)
+        msg = f"Your items:\n{msg}"
+    context.bot.send_message(chat_id=chat_id, text=msg)
+
 
 def respond(update: Update, context: CallbackContext):
     chat_id = update.effective_chat.id
@@ -39,6 +50,7 @@ def respond(update: Update, context: CallbackContext):
 
 my_bot = Updater(token=bot_settings.BOT_TOKEN, use_context=True)
 my_bot.dispatcher.add_handler(CommandHandler("start", start))
+my_bot.dispatcher.add_handler(CommandHandler("list", list_items))
 my_bot.dispatcher.add_handler(MessageHandler(Filters.text, respond))
 
 logger.info("* Start polling...")
